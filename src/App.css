@@ -1,38 +1,77 @@
-.App {
+.login {
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+ .searchdiv{
+   display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  margin-left: 10%;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.error{
+  color: red;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+.inputs{
+  padding: 8px;
+  width: 70%;
+}
+#card{
+  float: right;
+}
+#img{
+  width: 200px;
+  height: 250px;
+  padding: 5px;
+  transition: transform .2s ease;
+}#img:hover{
+  transform: scale(1.1);
+}
+#pro{
+  border: 1px solid red;
+  width: 210px;
+  margin: 5px;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
-
-.App-link {
-  color: #61dafb;
+.dashboard h2{
+  float: right;
+  margin-top: 0;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.child4{
+  margin-left: 5%;
+  margin-top: 30px;
+  margin-right: auto;
+}.child4 input{
+  padding: 10px;
+  border-radius: 10px;
+  width: 50%;
+  border: 5px solid red;
+}
+.search::-webkit-input-placeholder{
+  font-family: FontAwesome;
+  font-weight: bold;
+  font-size: 25px;
+  overflow: visible;
+  vertical-align: top;
+  display: inline-block !important;
+  padding-left: 5px;
+  padding-top: 2px;
+  color: greenyellow;
+}
+@media all and (min-width: 480px) {
+  .Login {
+    border: 1px solid black;
+    padding: 40px;
+    width: 30%;
+    margin-left: 33%;
   }
-  to {
-    transform: rotate(360deg);
+
+  .Login form {
+    margin: 0 auto;
+    max-width: 320px;
+  }
+  .Login Button{
+    font-weight: bold;
+    background-color: rgb(0, 217, 255);
+    padding: 8px;
+    border-radius: 10px;
   }
 }
