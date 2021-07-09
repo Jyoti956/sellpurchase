@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
-import data from '../api'
+import React, { useState, useEffect } from 'react';
+import apidata from '../api'
 
 
-function Dashboard() {
+export default function Dashboard() {
 
     const [search, setSearch] = useState("");
-    const [showButton, setShowButton] = useState(true)
+    const [hide, setHide] = useState(false);
+    
+    useEffect(()=>{
+        const user=JSON.parse(localStorage.getItem('user'));
+        console.log(user);
+    },[]);
 
     const handleSearch = (e) => {
         const value = e.target.value;
@@ -14,40 +19,21 @@ function Dashboard() {
     }
 
     const handleRemoveButton = (product) => {
-        console.log(data);
-        const items=data.find((item)=>item.id===data.id);
-        for(let i=0; i<=data.length; i++){
-            if(items.id===data.id){
-                setShowButton(false)
-            }
+        console.log(apidata);
+        const items = apidata.find((item) => item.id === product.id);
+        if(items){
+            setHide(true)
         }
         
         
-    }
-
-    const buybtn = () => {
-
-        return (
-            <div>
-                <button className="addpro" onClick={(e) => {
-                    if (window.confirm("Do you really want to buy this item??")) {
-                        handleRemoveButton()
-                    }
-                }}>
-                    Buy Now
-                </button>
-            </div>
-        );
-
-    }
-
+        }
     
-
+    
 
     return (
         <div className="dashboard">
             <div>
-                <h2>Login as:Username</h2>
+                <h2>Login as:</h2>
             </div>
             <div className="child4">
                 <input
@@ -59,15 +45,23 @@ function Dashboard() {
             </div>
 
             <div className="searchdiv">
-                {data.map((product) => {
+                {apidata.map((product) => {
                     if (search.length !== 0) {
                         if (product.name.toLowerCase().startsWith(search.toLocaleLowerCase()))
                             return <div id="pro">
                                 <img className="small" src={product.src} alt={product.name} id="img" />
                                 <h3>{product.name}</h3>
                                 <h3>Rs.{product.price}</h3>
-                                {showButton ? buybtn() : null}
-                                
+                                {!hide &&
+                                <div id={product.id}>
+                                    <button className="addpro" onClick={(e) => {
+                                        if (window.confirm("Do you really want to buy this item??")) {
+                                            handleRemoveButton(product)
+                                        }
+                                    }}>
+                                        Buy Now
+                                    </button>
+                                </div>}
                             </div>
                     }
                     else {
@@ -76,12 +70,17 @@ function Dashboard() {
                                 <div id="pro">
                                     <img className="small" src={product.src} alt={product.name} id="img" />
                                     <h3>{product.name}</h3>
-                                    <div>
-                                        <p>{product.qty}</p>
-                                        <h4>Rs.{product.price}</h4>
-                                    </div>
-                                    {showButton ? buybtn() : null}
-                                    
+                                    <h4>Rs.{product.price}</h4>
+                                    {!hide &&
+                                    <div id={product.id}>
+                                    <button  className="addpro" onClick={(e) => {
+                                            if (window.confirm("Do you really want to buy this item??")) {
+                                                handleRemoveButton(product)
+                                            }
+                                        }}>
+                                            Buy Now
+                                        </button>
+                                    </div>}
                                 </div>
                             </>
                         );
@@ -94,4 +93,3 @@ function Dashboard() {
     );
 }
 
-export default Dashboard;

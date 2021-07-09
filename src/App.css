@@ -12,7 +12,8 @@
 }
 .inputs{
   padding: 8px;
-  width: 70%;
+  width: 80%;
+  margin: 4px;
 }
 #card{
   float: right;
