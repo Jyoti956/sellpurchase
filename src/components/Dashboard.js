@@ -1,16 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import apidata from '../api'
+import React, { useState} from 'react';
+import apidata from '../api';
 
 
-export default function Dashboard() {
-
+export default function Dashboard(props) {
+    const {newUsers,oldUsers}=props;
     const [search, setSearch] = useState("");
     const [hide, setHide] = useState(false);
-    
-    useEffect(()=>{
-        const user=JSON.parse(localStorage.getItem('user'));
-        console.log(user);
-    },[]);
+
 
     const handleSearch = (e) => {
         const value = e.target.value;
@@ -18,78 +14,73 @@ export default function Dashboard() {
         setSearch(value);
     }
 
-    const handleRemoveButton = (product) => {
+    const handleRemoveButton = (product) =>{
         console.log(apidata);
         const items = apidata.find((item) => item.id === product.id);
-        if(items){
+        console.log(items);
+        
+        if (items) {
             setHide(true)
         }
-        
-        
-        }
-    
-    
+    }
 
     return (
         <div className="dashboard">
-            <div>
-                <h2>Login as:</h2>
-            </div>
+            <h2>Login as:</h2>
+
             <div className="child4">
                 <input
                     className="search"
                     type="text"
                     placeholder="&#61442;"
                     value={search}
-                    onChange={handleSearch} />
+                    onChange={handleSearch}/>
             </div>
 
             <div className="searchdiv">
                 {apidata.map((product) => {
-                    if (search.length !== 0) {
+                    if (search.length !== 0){
                         if (product.name.toLowerCase().startsWith(search.toLocaleLowerCase()))
                             return <div id="pro">
-                                <img className="small" src={product.src} alt={product.name} id="img" />
-                                <h3>{product.name}</h3>
-                                <h3>Rs.{product.price}</h3>
-                                {!hide &&
-                                <div id={product.id}>
-                                    <button className="addpro" onClick={(e) => {
-                                        if (window.confirm("Do you really want to buy this item??")) {
-                                            handleRemoveButton(product)
-                                        }
-                                    }}>
-                                        Buy Now
-                                    </button>
-                                </div>}
-                            </div>
-                    }
-                    else {
-                        return (
-                            <>
+                                    <img className="small" src={product.src} alt={product.name} id="img" />
+                                    <h3>{product.name}</h3>
+                                    <h3>Rs.{product.price}</h3>
+                                    {!hide &&
+                                    <div id={product.id}>
+                                        <button className="addpro" onClick={(e) => {
+                                            if (window.confirm("Do you really want to buy this item??")) {
+                                                    handleRemoveButton(product)
+                                            }
+                                            }}>
+                                            Buy Now
+                                        </button>
+                                    </div>}
+                                    </div>
+                        }
+                        else{
+                            return (
+                                <>
                                 <div id="pro">
                                     <img className="small" src={product.src} alt={product.name} id="img" />
                                     <h3>{product.name}</h3>
                                     <h4>Rs.{product.price}</h4>
                                     {!hide &&
                                     <div id={product.id}>
-                                    <button  className="addpro" onClick={(e) => {
+                                        <button className="addpro" onClick={(e) => {
                                             if (window.confirm("Do you really want to buy this item??")) {
-                                                handleRemoveButton(product)
+                                                handleRemoveButton(product);
                                             }
                                         }}>
-                                            Buy Now
+                                        Buy Now
                                         </button>
                                     </div>}
-                                </div>
-                            </>
-                        );
+                                    </div>
+                                </>
+                            );
+                        }
                     }
-                }
                 )}
             </div>
-
-        </div>
-    );
-}
-
+        </div>);
+};
+                

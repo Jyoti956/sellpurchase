@@ -1,91 +1,96 @@
 import React, { useState, useEffect } from "react";
-import Form from "react-bootstrap/Form";
+
 import Button from "react-bootstrap/Button";
-import { useHistory,Link,Redirect} from "react-router-dom";
+import { useHistory,Redirect} from "react-router-dom";
 
 
 export default function Login() {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(null)
   const [newUsers, setNewUsers] = useState([]);
   const [oldUsers, setOldUsers] = useState([]);
   const [userFound,setUserFound]=useState(false);
   let history = useHistory();
 
-  useEffect(() => localStorage.setItem("newUsers", JSON.stringify(newUsers)), [newUsers]);
-
   useEffect(()=>{
-    finduser();
-  })
+    const oldData = JSON.parse(localStorage.getItem('newUsers'));
+    setOldUsers(oldData);
+    console.log(oldUsers,"oldUsers are here");
+    console.log(newUsers,"newUsers are here");
+  },[]);
+  
+  useEffect(() => localStorage.setItem("newUsers", JSON.stringify(newUsers)), [newUsers]);
+  
 
-  const finduser=()=>{
-    const oldUsers = JSON.parse(localStorage.getItem('newUsers'));
-    if(oldUsers){
-    setOldUsers(oldUsers);
-    
-    console.log(oldUsers);
-    for(let i=0; i<=oldUsers.length; i++){
-    if(oldUsers[i].userName===newUsers.userName && oldUsers[i].password===newUsers.password){
-      setUserFound(true);
-      // history.push('/dashboard');
-      <Redirect to='/dashboard'/>
-    }
-  }
-  }
-}
-function validateForm() {
-    if (!userName) {
-      setError("Please enter your Username");
-      return false;
-    }
-    if (!password) {
-      setError("Please enter your Password");
-      return false;
-    }
-  }
+  // const finduser=()=>{
+  //   if(oldUsers && newUsers){
+  //   for(let i=0; i<=oldUsers.length; i++){
+  //     console.log(oldUsers[i].username,"finduser is working");
+      
+  //    if(oldUsers[i].username===newUsers[i].username && oldUsers[i].password===newUsers[i].password){
+  //     setUserFound(true);
+  //     // history.push("/dashboard");
+  //     <Redirect to="dashboard"/>
+  //   }}}}
 
-  function handleLogin(e) {
-    e.preventDefault();
-    if (userName && password) {
-      newUsers.push({ userName: userName, password: password })
-      setNewUsers([...newUsers]);
+
+  const saveCreds=()=>{
+    if(userName && password){
+      newUsers.push({ username: userName, password: password });
+      setNewUsers([...newUsers],{userName,password}) ;
+      history.push("/dashboard");
+      // <Redirect to="/dashboard"/>
+      alert(userName + "You are Logged In successfully");
+      console.log(newUsers);
       
     }
-  //   if(userFound){
-  //     return  <Redirect  to="/dashboard" />
-  // }
-    else {
-      validateForm();
-    }
+  }
+  
+const handleLogin=(e)=> {
+      e.preventDefault();
+      if (userName && password) {
+      let result = oldUsers.find(user => {return user.username === userName && user.password===password});
+      
+      {result ? alert(userName + " " +"Logged in Successfully") && <Redirect to="/dashboard"/>:saveCreds()}
+      
+      // newUsers.push({ username: userName, password: password })
+      // setNewUsers([...newUsers],{userName,password});
+        
+    
+      // if(alert("Logged in Successfully")){
+      //   // history.push("/dashboard")
+      //   <Redirect to="/dashboard"/>
+      // }
+
+      
+    
+  }
+ 
+    
   }
   return (
     <div className='login'>
       <h1>Login Here</h1>
-      {error && <div className="error">****{error}</div>}
       <div className="Login">
-        <Form onSubmit={handleLogin}>
-          <Form.Group>
-            <Form.Label>Username:</Form.Label>
-            <Form.Control
+        <form onSubmit={handleLogin}>
+            Username:
+            <input
               autoFocus
               type="text"
               value={userName}
               onChange={(e) => setUserName(e.target.value)}
-              className="inputs" />
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Password:</Form.Label>
-            <Form.Control
+              className="inputs" required/>
+            Password:
+            <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="inputs" />
-          </Form.Group>
-          <Button block size="lg" type="button" >
+              className="inputs" required/>
+          
+          <Button block size="lg" type="submit">
             Login
         </Button>
-        </Form>
+        </form>
       </div>
     </div>
   );
