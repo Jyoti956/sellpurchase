@@ -1,12 +1,20 @@
-import React, { useState} from 'react';
+import React, { useState,useEffect} from 'react';
 import apidata from '../api';
 
 
-export default function Dashboard(props) {
-    const {newUsers,oldUsers}=props;
-    const [search, setSearch] = useState("");
-    const [hide, setHide] = useState(false);
 
+export default function Dashboard() {
+    
+    const [search, setSearch] = useState("");
+    const[user,setUser]=useState([])
+    const [isShowBuyButton,setIsShowBuyButton]=useState(true)
+
+    useEffect(()=>{
+        const users = JSON.parse(localStorage.getItem('newUsers'));
+        if(users){
+            setUser(users);
+        }
+        },[]);
 
     const handleSearch = (e) => {
         const value = e.target.value;
@@ -14,14 +22,12 @@ export default function Dashboard(props) {
         setSearch(value);
     }
 
-    const handleRemoveButton = (product) =>{
-        console.log(apidata);
-        const items = apidata.find((item) => item.id === product.id);
-        console.log(items);
+    const handleHideButton = (product) =>{
+        console.log(product);
+        product.isShowBuyButton=false;
+        console.log(product.isShowBuyButton);
+        setIsShowBuyButton(product.isShowBuyButton)
         
-        if (items) {
-            setHide(true)
-        }
     }
 
     return (
@@ -38,20 +44,20 @@ export default function Dashboard(props) {
             </div>
 
             <div className="searchdiv">
-                {apidata.map((product) => {
+                {apidata.map((product,index) => {
                     if (search.length !== 0){
                         if (product.name.toLowerCase().startsWith(search.toLocaleLowerCase()))
-                            return <div id="pro">
+                            return <div id="pro" key={index}>
                                     <img className="small" src={product.src} alt={product.name} id="img" />
                                     <h3>{product.name}</h3>
                                     <h3>Rs.{product.price}</h3>
-                                    {!hide &&
+                                    {product.isShowBuyButton &&
                                     <div id={product.id}>
                                         <button className="addpro" onClick={(e) => {
                                             if (window.confirm("Do you really want to buy this item??")) {
-                                                    handleRemoveButton(product)
+                                                   handleHideButton(product)
                                             }
-                                            }}>
+                                        }}>
                                             Buy Now
                                         </button>
                                     </div>}
@@ -60,18 +66,18 @@ export default function Dashboard(props) {
                         else{
                             return (
                                 <>
-                                <div id="pro">
+                                <div id="pro" key={index}>
                                     <img className="small" src={product.src} alt={product.name} id="img" />
                                     <h3>{product.name}</h3>
                                     <h4>Rs.{product.price}</h4>
-                                    {!hide &&
+                                    {product.isShowBuyButton &&
                                     <div id={product.id}>
                                         <button className="addpro" onClick={(e) => {
                                             if (window.confirm("Do you really want to buy this item??")) {
-                                                handleRemoveButton(product);
+                                                handleHideButton(product);
                                             }
                                         }}>
-                                        Buy Now
+                                          Buy Now
                                         </button>
                                     </div>}
                                     </div>

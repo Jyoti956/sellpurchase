@@ -14,71 +14,74 @@ const products = [
         "id": 1,
         "name": "Sunflower",
         "price": "200",
-        "src": pic1
+        "src": pic1,
+        "isShowBuyButton": true
     },
     {
         "id": 2,
         "name": "Pink Roses",
-
         "price": "1000",
-        "src": pic2
+        "src": pic2,
+        "isShowBuyButton": true
     },
     
     {
         "id": 3,
         "name": "Orange Roses",
         "price": "800",
-        "src": pic4
+        "src": pic4,
+        "isShowBuyButton": true
     },
     {
         "id": 4,
         "name": "Red Roses",
-
         "price": "600",
-        "src": pic5
+        "src": pic5,
+        "isShowBuyButton": true
     },
     {
         "id": 5,
         "name": "Lilies",
-
         "price": "400",
-        "src": pic6
+        "src": pic6,
+        "isShowBuyButton": true
     },
     
     {
         "id": 6,
         "name": "Marigolds",
-
         "price": "550",
-        "src": pic8
+        "src": pic8,
+        "isShowBuyButton": true
     },
     {
         "id": 7,
         "name": "Marron Roses",
-
         "price": "2000",
-        "src": pic9
+        "src": pic9,
+        "isShowBuyButton": true
     },
     {
         "id": 8,
         "name": "white Roses",
-
         "price": "700",
-        "src": pic10
+        "src": pic10,
+        "isShowBuyButton": true
     },
     {
         "id": 9,
         "name": "Jasmine",
-
         "price": "640",
-        "src": pic11
+        "src": pic11,
+        "isShowBuyButton": true
     },
     {
         "id": 10,
         "name": "Mix Roses",
 
         "price": "700",
-        "src": pic12
+        "src": pic12,
+        "isShowBuyButton": true
     }
 ];
 
